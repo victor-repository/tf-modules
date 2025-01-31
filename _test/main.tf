@@ -1,9 +1,9 @@
 module "vpc" {
   source = "../vpc"
 
-  # environment   = "Testing"
-  # region        = "us-west-1"
-  # name          = "vpc-test"
+  environment   = "Testing"
+  region        = "us-west-1"
+  name          = "vpc-test"
   cidr_block    = "10.0.0.0/16"
   azs           = ["us-west-1b", "us-west-1c"]
   public_cidrs  = ["10.0.10.0/24"]
