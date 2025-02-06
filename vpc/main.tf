@@ -3,7 +3,8 @@ resource "aws_vpc" "this" {
   cidr_block = var.cidr_block
 
   tags = {
-    Name = var.name
+    name        = "${var.environment}-${var.name}"
+    environment = var.environment
   }
 }
 
@@ -21,7 +22,8 @@ resource "aws_subnet" "public" {
   #map_public_ip_on_launch = true
 
   tags = {
-    Name = "Public Subnet ${count.index + 1}"
+    name        = "${var.environment}-${var.name}-public-${count.index + 1}"
+    environment = var.environment
   }
 }
 
@@ -30,8 +32,8 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.this.id
 
   tags = {
-    Name        = "${var.environment}-public-route-table"
-    Environment = "${var.environment}"
+    name        = "${var.environment}-${var.name}-public"
+    environment = var.environment
   }
 }
 
@@ -48,7 +50,8 @@ resource "aws_internet_gateway" "ig" {
   vpc_id = aws_vpc.this.id
 
   tags = {
-    Name = "Project VPC IG"
+    name        = "${var.environment}-${var.name}"
+    environment = var.environment
   }
 }
 
@@ -62,7 +65,8 @@ resource "aws_route_table" "ig" {
   }
 
   tags = {
-    Name = "2nd Route Table"
+    name        = "${var.environment}-${var.name}-local"
+    environment = var.environment
   }
 }
 
@@ -80,7 +84,8 @@ resource "aws_subnet" "private" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "Private Subnet ${count.index + 1}"
+    name        = "${var.environment}-${var.name}-${count.index + 1}-private"
+    environment = var.environment
   }
 }
 
@@ -89,8 +94,8 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.this.id
 
   tags = {
-    Name        = "${var.environment}-private-route-table"
-    Environment = "${var.environment}"
+    name        = "${var.environment}-${var.name}-private"
+    environment = var.environment
   }
 }
 
@@ -112,7 +117,7 @@ resource "aws_nat_gateway" "nat" {
   subnet_id     = element(aws_subnet.private.*.id, 0)
 
   tags = {
-    Name        = "nat-gateway-${var.environment}"
-    Environment = "${var.environment}"
+    name        = "${var.environment}-${var.name}"
+    environment = var.environment
   }
 }
