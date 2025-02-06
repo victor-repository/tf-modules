@@ -50,7 +50,7 @@ resource "aws_internet_gateway" "ig" {
   vpc_id = aws_vpc.this.id
 
   tags = {
-    Name        = "${var.environment}-${var.name}"
+    name        = "${var.environment}-${var.name}"
     environment = var.environment
   }
 }
